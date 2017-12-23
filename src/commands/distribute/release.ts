@@ -138,7 +138,7 @@ export default class ReleaseBinaryCommand extends AppCommand {
     let distributionGroupUsersRequestResponse: ClientResponse<models.DistributionGroupUserGetResponse[]>;
     try {
       distributionGroupUsersRequestResponse = await clientRequest<models.DistributionGroupUserGetResponse[]>(
-        (cb) => client.distributionGroups.listUsers(this.app.ownerName, this.app.appName, this.distributionGroup, cb));
+        (cb) => client.distribute.distributionGroups.listUsers(this.app.ownerName, this.app.appName, this.distributionGroup, cb));
       const statusCode = distributionGroupUsersRequestResponse.response.statusCode;
       if (statusCode >= 400) {
         throw statusCode;
@@ -159,7 +159,7 @@ export default class ReleaseBinaryCommand extends AppCommand {
     let createReleaseUploadRequestResponse: ClientResponse<models.ReleaseUploadBeginResponse>;
     try {
       createReleaseUploadRequestResponse = await out.progress("Creating release upload...",
-        clientRequest<models.ReleaseUploadBeginResponse>((cb) => client.releaseUploads.create(app.ownerName, app.appName, cb)));
+        clientRequest<models.ReleaseUploadBeginResponse>((cb) => client.distribute.releaseUploads.create(app.appName, app.ownerName, cb)));
     } catch (error) {
       throw failure(ErrorCodes.Exception, `failed to create release upload for ${this.filePath}`);
     }
