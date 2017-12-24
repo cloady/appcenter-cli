@@ -201,7 +201,7 @@ export default class OrgCollaboratorsUpdateCommand extends Command {
 
   private async sendInvitationToUser(client: AppCenterClient, collaborator: string): Promise<void> {
     try {
-      const httpResponse = await clientRequest((cb) => client.account.orgInvitations.create(this.name, collaborator, cb));
+      const httpResponse = await clientRequest((cb) => client.account.orgInvitations.create(this.name, { userEmail: { userEmail: collaborator } }, cb));
       if (httpResponse.response.statusCode >= 400) {
         throw httpResponse.response;
       }
@@ -217,7 +217,7 @@ export default class OrgCollaboratorsUpdateCommand extends Command {
 
   private async resendInvitationToUser(client: AppCenterClient, collaborator: string): Promise<void> {
     try {
-      const httpResponse = await clientRequest((cb) => client.account.orgInvitations.sendNewInvitation(this.name, collaborator, cb));
+      const httpResponse = await clientRequest((cb) => client.account.orgInvitations.sendNewInvitation(this.name, { userEmail: { userEmail: collaborator } }, cb));
       if (httpResponse.response.statusCode >= 400) {
         throw httpResponse.response;
       }
@@ -256,7 +256,7 @@ export default class OrgCollaboratorsUpdateCommand extends Command {
 
   private async cancelUserInvitation(client: AppCenterClient, collaborator: string): Promise<void> {
     try {
-      const httpResponse = await clientRequest((cb) => client.account.orgInvitations.deleteMethod(this.name, collaborator, cb));
+      const httpResponse = await clientRequest((cb) => client.account.orgInvitations.deleteMethod(this.name, { userEmail: { userEmail: collaborator } }, cb));
       if (httpResponse.response.statusCode >= 400) {
         throw httpResponse.response;
       }
@@ -300,9 +300,9 @@ export default class OrgCollaboratorsUpdateCommand extends Command {
 
   private async changeUserRole(client: AppCenterClient, collaboratorName: string, role: UserRole): Promise<void> {
     try {
-      const httpResponse = await clientRequest((cb) => client.account.users.updateOrgRole(this.name, collaboratorName, {
+      const httpResponse = await clientRequest((cb) => client.account.users.updateOrgRole(this.name, {
         role
-      }, cb));
+      }, collaboratorName, cb));
       if (httpResponse.response.statusCode >= 400) {
         throw httpResponse.response;
       }

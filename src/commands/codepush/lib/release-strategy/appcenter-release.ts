@@ -18,7 +18,7 @@ export default class AppCenterCodePushRelease implements ReleaseStrategy {
           app.ownerName,
           updateMetadata.appVersion,
           {
-            packageParameter: fs.createReadStream(updateContentsZipPath),
+            packageProperty: fs.createReadStream(updateContentsZipPath),
             deploymentName: deploymentName,
             description: updateMetadata.description,
             disabled: updateMetadata.isDisabled, 

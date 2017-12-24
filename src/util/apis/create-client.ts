@@ -67,7 +67,7 @@ export function createAppCenterClient(command: string[], telemetryEnabled: boole
 }
 
 // Helper function to wrap client calls into promises while maintaining some type safety.
-export function clientCall<T>(action: {(cb: ServiceCallback<T>): void}): Promise<T> {
+export function clientCall<T>(action: {(cb: ServiceCallback<any>): void}): Promise<T> {
   return new Promise<T>((resolve, reject) => {
     action((err: Error, result: T) => {
       if (err) { reject(err); }
@@ -85,7 +85,7 @@ export interface ClientResponse<T> {
 }
 
 // Helper function to wrap client calls into pormises and returning both HTTP response and parsed result
-export function clientRequest<T>(action: {(cb: ServiceCallback<T>): void}): Promise<ClientResponse<T>> {
+export function clientRequest<T>(action: {(cb: ServiceCallback<any>): void}): Promise<ClientResponse<T>> {
   return new Promise<ClientResponse<T>>((resolve, reject) => {
     action((err: Error | ServiceError, result: T, request: WebResource, response: IncomingMessage) => {
       if (err) { reject(err); }
